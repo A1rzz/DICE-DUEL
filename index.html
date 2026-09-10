@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DICE DUEL — Online</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body><main class="app">
+<header class="brand"><div class="logo">⚄</div><div><small>ONLINE DICE GAME</small><h1>DICE <span>DUEL</span></h1></div></header>
+
+<section id="home" class="view">
+<div class="hero"><div><b>⚡ 2 PLAYER • REALTIME</b><h2>Wer würfelt die <em>1</em>?</h2><p>Erstelle einen Raum, teile den Link und spiele live gegen deinen Freund.</p></div><div class="orb">⚄</div></div>
+<div class="cards">
+<article class="card"><h3>01 · SPIEL ERSTELLEN</h3><label>Dein Name</label><input id="createName" maxlength="18" placeholder="z. B. Alex"><label>Startzahl</label><input id="start" type="number" min="2" max="1000000000" value="100"><button id="create" class="primary">🎮 SPIEL ERSTELLEN</button></article>
+<article class="card"><h3>02 · BEITRETEN</h3><label>Dein Name</label><input id="joinName" maxlength="18" placeholder="z. B. Tom"><label>Raum-Code</label><input id="code" maxlength="6" placeholder="X7K4P9"><button id="join" class="secondary">🚀 RAUM BEITRETEN</button></article>
+</div><p id="configHint" class="hint"></p>
+</section>
+
+<section id="lobby" class="view hidden"><article class="card center lobby"><b>ROOM READY</b><h2>Warte auf deinen Gegner</h2><p>Schicke deinem Freund den Code oder den Einladungslink.</p><div id="lobbyCode" class="code">------</div><button id="copyLink" class="primary">🔗 LINK KOPIEREN</button><button id="copyCode" class="ghost">CODE KOPIEREN</button><p id="wait">⏳ Warte auf Spieler 2…</p></article></section>
+
+<section id="game" class="view hidden">
+<div class="bar"><span>RAUM <strong id="gameCode">------</strong></span><button id="leave" class="ghost tiny">VERLASSEN</button></div>
+<div class="players"><div id="p1" class="player"><small>P1</small><strong id="p1name">Spieler 1</strong><span id="p1turn">READY</span></div><b>VS</b><div id="p2" class="player"><small>P2</small><strong id="p2name">Wartet…</strong><span id="p2turn">READY</span></div></div>
+<div class="gamegrid"><article class="card center"><small>AKTUELLE ZAHL</small><div id="number" class="number">—</div><div id="turnText" class="turn">—</div><button id="roll" class="roll" disabled>🎲 WÜRFELN</button><div id="rollResult"></div></article>
+<article class="card"><h3>SPIELHISTORIE</h3><div id="history" class="history"></div></article></div>
+</section>
+
+<section id="result" class="view hidden"><article id="resultCard" class="card center result"><div id="emoji">🏆</div><b>DUELL BEENDET</b><h2 id="resultTitle"></h2><p id="resultText"></p><button id="rematch" class="primary">🔄 NEUES SPIEL</button><button id="homeBtn" class="ghost">HAUPTMENÜ</button></article></section>
+<div id="toast" class="toast"></div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="app.js"></script>
+</body></html>
