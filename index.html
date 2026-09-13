@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DICE DUEL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="world">
+  <header class="fantasy-header">
+    <div class="hero-cast left-cast" aria-hidden="true"><span>🧝‍♀️</span><span>🧙‍♀️</span></div>
+    <div class="header-copy">
+      <div class="dice-mark">🎲</div>
+      <h1>DICE DUEL</h1>
+      <p>WÜRFELN. ZOCKEN. GEWINNEN.</p>
+    </div>
+    <div class="hero-cast right-cast" aria-hidden="true"><span>🧝‍♂️</span><span>🧛‍♀️</span></div>
+    <div class="banner banner-left">GLÜCK<br>TAKTIK<br>SIEG</div>
+    <div class="banner banner-right">KLEINE<br>WÜRFEL<br>GROSSE<br>MOMENTE</div>
+  </header>
+
+  <main class="shell">
+    <aside class="side left-side">
+      <div class="side-menu">
+        <button class="nav-faux active">⌂ <span>START</span></button>
+        <button class="nav-faux">＋ <span>RAUM ERSTELLEN</span></button>
+        <button class="nav-faux">♟ <span>RAUM BEITRETEN</span></button>
+        <button class="nav-faux">⚙ <span>EINSTELLUNGEN</span></button>
+      </div>
+      <div class="side-art"><div class="big-die">⚄</div><strong>WÜRFELN<br>VERBINDET</strong></div>
+    </aside>
+
+    <section class="main-stage">
+      <div id="home" class="view">
+        <div class="panel-title">START</div>
+        <div class="parchment intro">
+          <h2>Willkommen bei DICE DUEL</h2>
+          <p>Erstelle einen Raum oder tritt mit einem Raum-Code bei. Wähle zwischen dem klassischen 1 VS 1 und einer Runde mit bis zu 10 Spielern.</p>
+        </div>
+        <div class="mode-select">
+          <button class="mode active" data-mode="2"><strong>⚔ 1 VS 1</strong><small>Das klassische Duell</small></button>
+          <button class="mode" data-mode="10"><strong>♟ BIS ZU 10 SPIELER</strong><small>Die letzte Person gewinnt</small></button>
+        </div>
+        <div class="cards">
+          <article class="card parchment">
+            <h3>RAUM ERSTELLEN</h3>
+            <label>Dein Name</label><input id="createName" maxlength="18" placeholder="z. B. Alex">
+            <label>Startzahl</label><input id="start" type="number" min="2" max="1000000000" value="100">
+            <button id="create" class="primary">RAUM ERSTELLEN</button>
+          </article>
+          <article class="card parchment">
+            <h3>RAUM BEITRETEN</h3>
+            <label>Dein Name</label><input id="joinName" maxlength="18" placeholder="z. B. Tom">
+            <label>Raum-Code</label><input id="code" maxlength="6" placeholder="X7K4P9">
+            <button id="join" class="secondary">RAUM BEITRETEN</button>
+          </article>
+        </div>
+        <p id="configHint" class="hint"></p>
+      </div>
+
+      <div id="lobby" class="view hidden">
+        <div class="panel-title">LOBBY</div>
+        <div class="lobby-top parchment">
+          <div><small>RAUMCODE</small><div id="lobbyCode" class="code">------</div></div>
+          <div class="invite-actions"><button id="copyLink" class="primary">EINLADUNG TEILEN</button><button id="copyCode" class="ghost">CODE KOPIEREN</button></div>
+        </div>
+
+        <div class="stake-box parchment">
+          <label for="stakeAmount">EINSATZ / BETRAG</label>
+          <div class="stake-row"><input id="stakeAmount" type="number" min="0" step="1" value="0" placeholder="z. B. 10"><button id="saveStake" class="ghost stake-save">SPEICHERN</button></div>
+          <small id="stakeHint">Nur der Host kann den Betrag vor dem Start ändern.</small>
+        </div>
+
+        <div class="lobby-order-head">
+          <div><span>SPIELER / REIHENFOLGE</span><small>Host kann die Reihenfolge ändern</small></div>
+          <button id="shufflePlayers" class="ghost lobby-shuffle hidden">🔀 ZUFÄLLIG MISCHEN</button>
+        </div>
+        <div id="lobbyPlayers" class="lobby-players parchment"></div>
+        <button id="startGame" class="start-button secondary hidden">⚔ SPIEL STARTEN</button>
+        <p id="wait" class="wait">⏳ Warte auf Mitspieler…</p>
+      </div>
+
+      <div id="game" class="view hidden">
+        <div class="panel-title game-title"><span>DUELL</span><button id="leave" class="ghost tiny">VERLASSEN</button></div>
+        <div class="room-strip">RAUM <strong id="gameCode">------</strong></div>
+        <div id="players" class="players"></div>
+        <div class="players-actions"><button id="shuffleBeforeRoll" class="ghost pre-roll-shuffle hidden">🔀 REIHENFOLGE MISCHEN</button></div>
+        <div class="gamegrid">
+          <article class="card parchment center">
+            <small>AKTUELLE ZAHL</small>
+            <div id="number" class="number">—</div>
+            <div id="modeText" class="mode-text"></div>
+            <div id="stakeText" class="stake-text"></div>
+            <div id="turnText" class="turn">—</div>
+            <button id="roll" class="roll" disabled>🎲 WÜRFELN</button>
+            <div id="rollResult"></div>
+          </article>
+          <article class="card parchment">
+            <h3>SPIELHISTORIE</h3>
+            <div id="history" class="history"></div>
+          </article>
+        </div>
+      </div>
+
+      <div id="result" class="view hidden">
+        <div class="panel-title">ERGEBNIS</div>
+        <article id="resultCard" class="card parchment center result">
+          <div id="emoji">🏆</div><b>DUELL BEENDET</b>
+          <h2 id="resultTitle"></h2><p id="resultText"></p>
+          <div id="resultSummary" class="result-summary"></div>
+          <button id="rematch" class="primary">🔄 NEUES SPIEL</button>
+          <button id="homeBtn" class="ghost">HAUPTMENÜ</button>
+        </article>
+      </div>
+    </section>
+
+    <aside class="side right-side">
+      <div class="info-box">
+        <h3>DEIN PROFIL</h3>
+        <div class="profile"><div class="profile-placeholder">♟</div><div><strong>Spieler</strong><span>● Bereit</span></div></div>
+      </div>
+      <div class="info-box"><h3>RAUM-INFOS</h3><p>⚔ Modus: DICE DUEL</p><p>⌛ Status: Lobby / Spiel</p><p>🎲 Echtzeit-Multiplayer</p></div>
+      <div class="side-art right-art"><div class="dice-pair">🎲 🎲</div><strong>Gambeln ist Geil - GIG</strong></div>
+    </aside>
+  </main>
+  <div id="toast" class="toast"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
