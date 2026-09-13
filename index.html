@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DICE DUEL</title>
+<link rel="stylesheet" href="exact.css?v=12">
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- STARTSCREEN -->
+  <section id="home" class="view screen home-screen">
+    <img class="full-bg" src="assets/exact-lobby.jpg" alt="">
+    <div class="home-dim"></div>
+
+    <div class="home-mode-wrap">
+      <button class="home-mode mode active" data-mode="2">⚔ 1 VS 1</button>
+      <button class="home-mode mode" data-mode="10">♟ BIS ZU 10 SPIELER</button>
+    </div>
+
+    <div class="home-panel create-panel">
+      <h2>RAUM ERSTELLEN</h2>
+      <label>Dein Name</label>
+      <input id="createName" maxlength="18" placeholder="z. B. Alex">
+      <label>Startzahl</label>
+      <input id="start" type="number" min="2" max="1000000000" value="100">
+      <button id="create" class="home-red">RAUM ERSTELLEN</button>
+    </div>
+
+    <div class="home-panel join-panel">
+      <h2>RAUM BEITRETEN</h2>
+      <label>Dein Name</label>
+      <input id="joinName" maxlength="18" placeholder="z. B. Tom">
+      <label>Raum-Code</label>
+      <input id="code" maxlength="6" placeholder="A7K9XX">
+      <button id="join" class="home-red">RAUM BEITRETEN</button>
+    </div>
+
+    <p id="configHint" class="config-hint"></p>
+  </section>
+
+  <!-- EXAKTE LOBBY -->
+  <section id="lobby" class="view screen exact-screen hidden">
+    <img class="full-bg" src="assets/exact-lobby.jpg" alt="">
+
+    <!-- echte Modus-Auswahl auf den linken Reitern -->
+    <button class="hit mode hit-mode-2 active" data-mode="2" aria-label="1 VS 1"></button>
+    <button class="hit mode hit-mode-10" data-mode="10" aria-label="Bis zu 10 Spieler"></button>
+
+    <!-- Dynamische Bereiche decken die statischen Beispielwerte der Vorlage ab -->
+    <div class="cover cover-mode"></div>
+    <div id="lobbyModeLabel" class="live lobby-mode">1 VS 1</div>
+
+    <div class="cover cover-stake"></div>
+    <input id="stakeAmount" class="live stake-input" type="number" min="0" step="1" value="0">
+    <span class="live euro-live">€</span>
+    <button id="saveStake" class="hit hit-save" aria-label="Einsatz speichern"></button>
+    <span id="stakeHint" class="sr-only"></span>
+
+    <div class="cover cover-code"></div>
+    <div id="lobbyCode" class="live code-live">------</div>
+    <button id="copyCode" class="hit hit-copy" aria-label="Raumcode kopieren"></button>
+    <button id="copyLink" class="hit hit-link" aria-label="Einladungslink teilen"></button>
+
+    <div class="cover cover-count"></div>
+    <div id="playerCountTitle" class="live count-live">SPIELER</div>
+    <button id="shufflePlayers" class="hit hit-shuffle hidden" aria-label="Zufällig mischen"></button>
+
+    <!-- Spielerbereich -->
+    <div class="cover cover-playerlist"></div>
+    <div id="lobbyPlayers" class="live player-list-live"></div>
+
+    <button id="startGame" class="hit hit-start hidden" aria-label="Spiel starten"></button>
+    <p id="wait" class="sr-only">Warte auf Mitspieler…</p>
+
+    <!-- rechte Infospalte -->
+    <div class="cover cover-profile"></div>
+    <div id="profileName" class="live profile-live">Spieler</div>
+
+    <div class="cover cover-side-values"></div>
+    <div id="sideRoomCode" class="live side-value side-room">—</div>
+    <div id="sideMode" class="live side-value side-mode">—</div>
+    <div id="sideStake" class="live side-value side-stake">0 €</div>
+    <div id="sideStatus" class="live side-value side-status">Lobby</div>
+    <div id="sidePlayers" class="live side-value side-players">—</div>
+  </section>
+
+  <!-- SPIEL -->
+  <section id="game" class="view screen game-screen hidden">
+    <img class="full-bg" src="assets/exact-lobby.jpg" alt="">
+    <div class="game-mask"></div>
+
+    <div class="game-ui">
+      <div class="game-title">DUELL</div>
+      <div class="game-room">RAUM <strong id="gameCode">------</strong></div>
+
+      <div id="players" class="players"></div>
+
+      <div class="game-actions">
+        <button id="shuffleBeforeRoll" class="fantasy-btn hidden">🔀 REIHENFOLGE MISCHEN</button>
+        <button id="leave" class="fantasy-btn small">VERLASSEN</button>
+      </div>
+
+      <div class="game-grid">
+        <article class="paper-card game-card center">
+          <span>AKTUELLE ZAHL</span>
+          <div id="number" class="number">—</div>
+          <div id="modeText"></div>
+          <div id="stakeText"></div>
+          <div id="turnText"></div>
+          <button id="roll" class="roll-btn" disabled>🎲 WÜRFELN</button>
+          <div id="rollResult"></div>
+        </article>
+
+        <article class="paper-card game-card">
+          <h3>SPIELHISTORIE</h3>
+          <div id="history" class="history"></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ERGEBNIS -->
+  <section id="result" class="view screen result-screen hidden">
+    <img class="full-bg" src="assets/exact-lobby.jpg" alt="">
+    <div class="result-box card center result" id="resultCard">
+      <div id="emoji" class="result-emoji">🏆</div>
+      <h2 id="resultTitle"></h2>
+      <p id="resultText"></p>
+      <div id="resultSummary"></div>
+      <button id="rematch" class="fantasy-btn full-btn">🔄 NEUES SPIEL</button>
+      <button id="homeBtn" class="fantasy-btn full-btn">HAUPTMENÜ</button>
+    </div>
+  </section>
+
+  <div id="toast" class="toast"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="app.js?v=12"></script>
+</body>
+</html>
